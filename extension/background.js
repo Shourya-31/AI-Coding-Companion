@@ -1,4 +1,4 @@
-chrome.runtime.OnInstalled.addListener(() => {
+chrome.runtime.onInstalled.addListener(() => {
     chrome.contextMenus.create({
         id: "explainWithAI",
         title: "Explain with AI",

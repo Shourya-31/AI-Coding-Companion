@@ -5,20 +5,15 @@ document.getElementById("send").addEventListener("click", async () => {
   resBox.textContent = "Thinking...";
 
   try {
-    const response = await fetch("https://ai-coding-companion.onrender.com/api/generate", {
+    const response = await fetch("http://localhost:3000/api/generate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ prompt: query })
     });
 
-    if (!response.ok) {
-      throw new Error(`Server error: ${response.status}`);
-    }
-
     const data = await response.json();
-    resBox.textContent = data.reply || "No response from AI.";
+    resBox.textContent = data.output || "No response from AI.";
   } catch (error) {
-    console.error(error);
     resBox.textContent = "Error connecting to server.";
   }
 });
