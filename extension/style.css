@@ -1,55 +1,157 @@
 body {
-  font-family: "Segoe UI", Roboto, sans-serif;
-  background-color: #0d1117;
-  color: #e6edf3;
-  width: 320px;
-  padding: 16px;
-  box-sizing: border-box;
+  font-family: "Inter", "Segoe UI", sans-serif;
+  background: rgba(12, 22, 48, 0.82);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  color: #cfe2ff;
+  width: 400px;
+  padding: 24px;
+  border-radius: 22px;
+  animation: fadeIn 0.35s ease-out;
+  border: 1px solid rgba(120, 180, 255, 0.28);
+  box-shadow:
+      0 0 22px rgba(40, 120, 255, 0.30),
+      0 0 55px rgba(36, 119, 255, 0.12) inset;
+}
+
+.popup-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px; /* perfect spacing */
 }
 
 h3 {
-  margin-top: 0;
-  color: #58a6ff;
   text-align: center;
+  margin: 0 0 18px 0;
+  color: #8dceff;
+  font-size: 24px;
+  font-weight: 850;
+  letter-spacing: 0.7px;
+  text-shadow: 0 0 12px rgba(110, 185, 255, 1);
 }
 
 textarea {
   width: 100%;
-  height: 100px;
-  background-color: #161b22;
-  color: #c9d1d9;
-  border: 1px solid #30363d;
-  border-radius: 8px;
-  padding: 8px;
-  resize: none;
-  font-size: 14px;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  min-height: 100px;
+  max-height: 320px;
+  border-radius: 15px;
+  padding: 14px;
+  font-size: 16px;
+  background: rgba(20, 35, 70, 0.94);
+  border: 1px solid rgba(120, 160, 255, 0.40);
+  color: #f0f6ff;
+  transition: 0.25s ease;
+  overflow-y: auto;
+  resize: vertical;
+  box-shadow: inset 0 0 14px rgba(60, 130, 255, 0.20);
+}
+
+textarea:focus {
+  outline: none;
+  border-color: #79c3ff;
+  box-shadow:
+      0 0 14px rgba(120, 190, 255, 0.7),
+      inset 0 0 16px rgba(100, 160, 255, 0.35);
 }
 
 button {
   width: 100%;
-  margin-top: 10px;
-  padding: 10px;
+  margin-top: 16px;
+  padding: 14px;
   border: none;
-  border-radius: 8px;
-  background-color: #238636;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #2f7dff, #7fc9ff);
   color: white;
-  font-weight: bold;
+  font-weight: 800;
   cursor: pointer;
-  transition: background-color 0.2s;
+  font-size: 16px;
+  transition: 0.20s ease-in-out;
+  box-shadow:
+      0 0 18px rgba(75, 145, 255, 0.7),
+      0 0 30px rgba(110, 175, 255, 0.35);
 }
 
 button:hover {
-  background-color: #2ea043;
+  transform: translateY(-3px);
+  box-shadow:
+      0 0 28px rgba(130, 180, 255, 1),
+      0 0 45px rgba(170, 220, 255, 0.75);
 }
 
-pre {
-  background-color: #161b22;
-  color: #8b949e;
-  padding: 8px;
-  border-radius: 8px;
-  margin-top: 12px;
-  white-space: pre-wrap;
-  max-height: 200px;
+button:active {
+  transform: scale(0.96);
+}
+
+#responseContainer {
+  margin-top: 20px;
+  max-height: 520px;
   overflow-y: auto;
-  font-size: 13px;
+  background: rgba(20, 35, 70, 0.97);
+  border-radius: 16px;
+  padding: 16px;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid rgba(90, 140, 255, 0.35);
+  animation: fadeResponse 0.35s ease-out;
+  box-shadow:
+      inset 0 0 22px rgba(36, 119, 255, 0.18),
+      inset 0 0 35px rgba(60, 140, 255, 0.12);
+}
+
+
+pre {
+  white-space: pre-wrap;
+  font-size: 15.5px;
+  line-height: 1.55;
+  color: #e4ecff;
+  font-weight: 500;
+}
+
+#responseContainer::-webkit-scrollbar {
+  width: 7px;
+}
+#responseContainer::-webkit-scrollbar-track {
+  background: rgba(255,255,255,0.05);
+  border-radius: 10px;
+}
+#responseContainer::-webkit-scrollbar-thumb {
+  background: rgba(140, 195, 255, 0.8);
+  border-radius: 10px;
+  box-shadow: 0 0 12px rgba(140, 195, 255, 0.9);
+}
+#responseContainer::-webkit-scrollbar-thumb:hover {
+  background: rgba(160, 210, 255, 1);
+}
+
+#responseContainer:empty {
+  display: none;
+}
+
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0)   scale(1); }
+}
+
+@keyframes fadeResponse {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.loading {
+  font-weight: 800;
+  font-size: 16px;
+  color: #90d3ff;
+  text-align: center;
+  letter-spacing: 0.6px;
+  animation: blink 1s infinite;
+  text-shadow: 0 0 10px rgba(140, 220, 255, 0.8);
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
 }

@@ -1,41 +1,126 @@
 chrome.runtime.onMessage.addListener(async (msg, sender, sendResponse) => {
     if (msg.type === "AI_EXPLAIN_REQUEST") {
-        const codeSnippet = msg.code;
+        showPopup("Thinking... ✨");
 
-        const explanation = await getAIExplanation(codeSnippet);
-        showPopup(explanation);
+        const explanation = await getAIExplanation(msg.code);
+        updatePopup(explanation);
     }
 });
 
+// Fetch AI result
 async function getAIExplanation(codeSnippet) {
-    const response = await fetch("http://localhost:3000/api/generate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt: `Explain this code:\n${codeSnippet}` })
-    });
+    try {
+        const response = await fetch("http://localhost:3000/api/generate", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ prompt: `Explain this code:\n${codeSnippet}` })
+        });
 
-    const data = await response.json();
-    return data.output || "No response from AI";
+        const data = await response.json();
+        return data.output || "No response from AI.";
+    } catch (e) {
+        return "❌ Error: Unable to connect to AI backend.";
+    }
 }
 
-function showPopup(text) {
-    const bubble = document.createElement("div");
-    bubble.style.position = "fixed";
-    bubble.style.bottom = "20px";
-    bubble.style.right = "20px";
-    bubble.style.maxWidth = "300px";
-    bubble.style.background = "#161b22";
-    bubble.style.color = "#c9d1d9";
-    bubble.style.border = "1px solid #30363d";
-    bubble.style.padding = "12px";
-    bubble.style.borderRadius = "8px";
-    bubble.style.zIndex = "999999";
-    bubble.style.fontSize = "14px";
-    bubble.style.fontFamily = "Segoe UI, Roboto";
+// GLOBAL popup instance
+let popupDiv = null;
 
-    bubble.textContent = text;
+// Show popup
+function showPopup(initialText) {
+    if (popupDiv) popupDiv.remove();
 
-    document.body.appendChild(bubble);
+    popupDiv = document.createElement("div");
+    popupDiv.id = "aiExplainPopup";
 
-    setTimeout(() => bubble.remove(), 12000);
+    popupDiv.innerHTML = `
+        <div class="ai-header">
+            <span>AI Coding Companion 💙</span>
+            <button id="aiCloseBtn">✖</button>
+        </div>
+        <div id="aiContent">${initialText}</div>
+    `;
+
+    document.body.appendChild(popupDiv);
+
+    document.getElementById("aiCloseBtn").onclick = () => popupDiv.remove();
+
+    injectStyles();
 }
+
+// Update popup with response
+function updatePopup(text) {
+    const content = document.getElementById("aiContent");
+    if (content) {
+        content.textContent = text;
+    }
+}
+
+function injectFloatingStyles() {
+    if (document.getElementById("aiFloatingStyles")) return;
+
+    const style = document.createElement("style");
+    style.id = "aiFloatingStyles";
+
+    style.textContent = `
+        #ai-floating-btn {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #2f7dff, #7fc9ff);
+            color: #fff;
+            font-size: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 50%;
+            box-shadow: 0 8px 22px rgba(0,0,0,0.25);
+            z-index: 99999999;
+            transition: 0.25s ease;
+            user-select: none;
+        }
+
+        #ai-floating-btn:hover {
+            transform: scale(1.12);
+            box-shadow: 0 12px 26px rgba(0,0,0,0.30);
+        }
+    `;
+
+    document.head.appendChild(style);
+}
+
+// window.addEventListener("message", (event) => {
+//     if (event.data && event.data.type === "OPEN_POPUP_REQUEST") {
+//         chrome.runtime.sendMessage({ type: "OPEN_POPUP" });
+//     }
+// });
+
+// Create the floating button
+// Create the floating button
+// Create the floating button
+// Create the floating button
+(function createFloatingButton() {
+    if (document.getElementById("ai-floating-btn")) return;
+
+    const btn = document.createElement("div");
+    btn.id = "ai-floating-btn";
+    btn.innerHTML = "💬";
+
+    // CLICK HANDLER
+    btn.onclick = () => {
+        chrome.runtime.sendMessage({ type: "OPEN_POPUP" });
+    };
+
+    // Append button OUTSIDE the onclick
+    document.body.appendChild(btn);
+
+    // Load style
+    injectFloatingStyles();
+})();
+
+
+
+

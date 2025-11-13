@@ -1,15 +1,31 @@
 {
-    "manifest_version":3,
+    "manifest_version": 3,
     "name": "AI Coding Companion",
     "version": "1.0",
     "description": "Right-click any code to get AI explanations, complexity and improvements.",
-    "permissions": ["contextMenus", "activeTab", "scripting"],
+    
+    "permissions": [
+        "contextMenus",
+        "activeTab",
+        "scripting",
+        "tabs"
+    ],
+
     "background": {
         "service_worker": "background.js"
     },
+
     "action": {
         "default_popup": "popup.html",
         "default_icon": "icon.png"
     },
-    "host_permissions": ["<all_urls>"]
+
+    "host_permissions": ["<all_urls>"],
+
+    "content_scripts": [
+        {
+            "matches": ["<all_urls>"],
+            "js": ["content.js"]
+        }
+    ]
 }
