@@ -26,16 +26,20 @@ app.post("/api/generate", async (req, res) => {
     );
 
     const data = await response.json();
+
+    // 🧠 Log Gemini API raw response for debugging
+    console.log("🔍 Gemini API response:", JSON.stringify(data, null, 2));
+
     const output =
       data.candidates?.[0]?.content?.parts?.[0]?.text ||
       "No response from model";
 
     res.json({ output });
   } catch (err) {
-    console.error(err);
+    console.error("❌ Server error:", err);
     res.status(500).json({ error: "Server error" });
   }
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
