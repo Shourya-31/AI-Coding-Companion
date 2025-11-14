@@ -98,10 +98,6 @@ function injectFloatingStyles() {
 //     }
 // });
 
-// Create the floating button
-// Create the floating button
-// Create the floating button
-// Create the floating button
 (function createFloatingButton() {
     if (document.getElementById("ai-floating-btn")) return;
 
