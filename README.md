@@ -29,5 +29,3 @@ The extension connects to your deployed backend (Vercel / local server) that han
 
 StackOverflow, GitHub, GeeksForGeeks, Docs — everything.
 Just select → explain.
-
-Gemini/OpenAI API (depending on setup)
