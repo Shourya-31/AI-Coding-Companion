@@ -30,20 +30,4 @@ The extension connects to your deployed backend (Vercel / local server) that han
 StackOverflow, GitHub, GeeksForGeeks, Docs — everything.
 Just select → explain.
 
-🛠️ Tech Stack
-
-Frontend (Extension):
-
-Chrome Extensions Manifest V3
-
-Vanilla JS (content scripts + background scripts)
-
-HTML + CSS (custom popup UI + floating button)
-
-Backend (API):
-
-Node.js
-
-Next.js / Vercel Serverless Functions
-
 Gemini/OpenAI API (depending on setup)
